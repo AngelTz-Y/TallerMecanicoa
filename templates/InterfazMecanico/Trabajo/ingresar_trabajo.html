@@ -1,0 +1,420 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingresar Trabajo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+        
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+        }
+
+        /* Barra lateral */
+        .sidebar {
+            background-color: #161b22;
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.close {
+            transform: translateX(-100%);
+        }
+
+        .sidebar a, .dropdown-btn {
+            color: #c9d1d9;
+            font-weight: 500;
+            font-size: 1rem;
+            width: 100%;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .sidebar a:hover, .dropdown-btn:hover {
+            background-color: #21262d;
+            border-radius: 8px;
+        }
+
+        .sidebar a .bi, .dropdown-btn .bi {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+
+        /* Barra superior */
+        .navbar-top {
+            background-color: #161b22;
+            padding: 10px 20px;
+            color: #c9d1d9;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #30363d;
+            position: fixed;
+            width: calc(100% - 250px);
+            left: 250px;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-top .navbar-brand {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .navbar-top .navbar-links a {
+            color: #c9d1d9;
+            margin-left: 15px;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-top .navbar-links a:hover {
+            color: #58a6ff;
+        }
+
+        .container {
+            margin-top: 80px;
+            max-width: 600px;
+        }
+
+        .form-container {
+            background-color: #161b22;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-container h2 {
+            color: #58a6ff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #9da5b4;
+            margin-bottom: 8px;
+        }
+
+        .form-control, .form-select {
+            background-color: rgba(33, 38, 45, 0.9);
+            color: #c9d1d9;
+            border: 1px solid rgba(48, 54, 61, 0.8);
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(48, 54, 61, 1);
+            border-color: #58a6ff;
+            box-shadow: 0px 0px 10px rgba(88, 166, 255, 0.7);
+        }
+
+        .form-control::placeholder {
+            color: #6c757d;
+        }
+
+        .btn-primary {
+            background-color: #58a6ff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #1f6feb;
+            box-shadow: 0px 8px 20px rgba(88, 166, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background-color: #30363d;
+            border: none;
+            color: #c9d1d9;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #404852;
+            color: #ffffff;
+            box-shadow: 0px 8px 20px rgba(64, 72, 82, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        /* Toasts */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1055;
+        }
+
+        .toast-success {
+            background-color: #198754;
+            color: #ffffff;
+        }
+
+        .toast-error {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+
+        .toast-body {
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <!-- Barra superior de navegación -->
+    <div class="navbar-top">
+        <div class="navbar-brand">
+            {% if username %}
+                Bienvenido, <strong>{{ username }}</strong>
+            {% else %}
+                Bienvenido
+            {% endif %}
+        </div>
+        <div class="navbar-links">
+            <a href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+        </div>
+    </div>
+    
+    <!-- Barra lateral -->
+    <div class="sidebar">
+        <a href="{% url 'dashboard_mecanico' %}">
+            <i class="bi bi-house-door-fill"></i> Inicio
+        </a>
+
+        <!-- Dropdown de Clientes -->
+        <div class="dropdown-btn">
+            <i class="bi bi-people-fill"></i> Clientes
+            <i class="bi bi-chevron-down ms-auto"></i>
+        </div>
+        <div class="dropdown-container">
+            <a href="{% url 'ingresar_cliente' %}"><i class="bi bi-person-plus-fill"></i> Ingresar Cliente</a>
+            <a href="{% url 'listar_cliente' %}"><i class="bi bi-list-ul"></i> Listar Clientes</a>
+        </div>
+
+        <!-- Dropdown de Vehículos -->
+        <div class="dropdown-btn">
+            <i class="bi bi-car-front-fill"></i> Vehículos
+            <i class="bi bi-chevron-down ms-auto"></i>
+        </div>
+        <div class="dropdown-container">
+            <a href="{% url 'ingresar_vehiculo' %}">
+                <i class="bi bi-car-front"></i> Agregar Vehículo
+            </a>
+            <a href="{% url 'listar_vehiculos' %}">
+                <i class="bi bi-list-ul"></i> Listar Vehículos
+            </a>
+        </div>
+
+        <!-- Dropdown de Órdenes de Trabajo -->
+        <div class="dropdown-btn">
+            <i class="bi bi-tools"></i> Órdenes de Trabajo
+            <i class="bi bi-chevron-down ms-auto"></i>
+        </div>
+        <div class="dropdown-container">
+            <a href="{% url 'ingresar_trabajo' %}"><i class="bi bi-file-earmark-plus"></i> Crear Trabajo</a>
+        </div>
+
+        <!-- Dropdown de Reparaciones -->
+        <div class="dropdown-btn">
+            <i class="bi bi-wrench"></i> Reparaciones
+            <i class="bi bi-chevron-down ms-auto"></i>
+        </div>
+        <div class="dropdown-container">
+            {% if trabajos %}
+                {% for trabajo in trabajos %}
+                    <a href="{% url 'trabajos_detalles_reparaciones' trabajo.id %}">
+                        <i class="bi bi-file-earmark-text"></i> Ingresar Reparacion
+                    </a>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">No hay trabajos asignados.</p>
+            {% endif %}
+        </div>
+
+        <a href="{% url 'consultar_trabajos' %}">
+            <i class="bi bi-list-check"></i> Consultar Órdenes
+        </a>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="toast 
+                    {% if message.tags == 'success' %}toast-success
+                    {% elif message.tags == 'error' %}toast-error
+                    {% else %}text-bg-secondary{% endif %}" 
+                    role="alert" 
+                    aria-live="assertive" 
+                    aria-atomic="true" 
+                    data-bs-delay="5000">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ message }}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Formulario -->
+    <div class="container">
+        <div class="form-container">
+            <h2>Ingresar Trabajo</h2>
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- Vehículo -->
+                <div class="mb-3">
+                    <label for="{{ form.vehiculo.id_for_label }}" class="form-label">{{ form.vehiculo.label }}</label>
+                    {{ form.vehiculo }}
+                    {% if form.vehiculo.errors %}
+                        <div class="text-danger">{{ form.vehiculo.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Mecánico -->
+                <div class="mb-3">
+                    <label for="{{ form.mecanico.id_for_label }}" class="form-label">{{ form.mecanico.label }}</label>
+                    {{ form.mecanico }}
+                    {% if form.mecanico.errors %}
+                        <div class="text-danger">{{ form.mecanico.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Estado -->
+                <div class="mb-3">
+                    <label for="{{ form.estado.id_for_label }}" class="form-label">{{ form.estado.label }}</label>
+                    {{ form.estado }}
+                    {% if form.estado.errors %}
+                        <div class="text-danger">{{ form.estado.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Costo Total Reparaciones -->
+                <div class="mb-3">
+                    <label for="{{ form.costo_total_reparaciones.id_for_label }}" class="form-label">{{ form.costo_total_reparaciones.label }}</label>
+                    {{ form.costo_total_reparaciones }}
+                    {% if form.costo_total_reparaciones.errors %}
+                        <div class="text-danger">{{ form.costo_total_reparaciones.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Fecha de Ingreso -->
+                <div class="mb-3">
+                    <label for="{{ form.fecha_ingreso.id_for_label }}" class="form-label">{{ form.fecha_ingreso.label }}</label>
+                    {{ form.fecha_ingreso }}
+                    {% if form.fecha_ingreso.errors %}
+                        <div class="text-danger">{{ form.fecha_ingreso.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Fecha de Entrega -->
+                <div class="mb-3">
+                    <label for="{{ form.fecha_entrega.id_for_label }}" class="form-label">{{ form.fecha_entrega.label }}</label>
+                    {{ form.fecha_entrega }}
+                    {% if form.fecha_entrega.errors %}
+                        <div class="text-danger">{{ form.fecha_entrega.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Botones -->
+                <div class="btn-container">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Ingresar Trabajo
+                    </button>
+                    <a href="{% url 'dashboard_mecanico' %}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left-circle"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        // Script para manejar los dropdowns en el menú lateral
+        document.querySelectorAll('.dropdown-btn').forEach(dropdown => {
+            dropdown.addEventListener('click', function () {
+                this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+
+        // Abrir y cerrar el sidebar en dispositivos móviles
+        const sidebar = document.querySelector('.sidebar');
+        const toggleSidebar = () => {
+            sidebar.classList.toggle('open');
+        }
+
+        // Detectar clic fuera del sidebar para cerrarlo
+        document.addEventListener('click', function (event) {
+            if (!sidebar.contains(event.target) && !event.target.closest('.navbar-toggler')) {
+                sidebar.classList.remove('open');
+            }
+        });
+    </script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function (toastEl) {
+                return new bootstrap.Toast(toastEl)
+            })
+            toastList.forEach(toast => toast.show())
+        });
+    </script>
+</body>
+</html>
